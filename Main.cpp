@@ -73,11 +73,14 @@ int main(int argc, char* argv[]){
         g.plain();
     }
 
-    for(Graph <float> g: graphs){
-        //readEdges(g);
-        for (int i = 0; i < 4; ++i) {
-            float costo = calcDistance(g.getVertices()[0], g.getVertices()[1]);
-            g.addEdge(g.getVertices()[0], g.getVertices()[1], costo);
+    typename std::list < Graph <float> > :: iterator it = graphs.begin();
+    for( ; it != graphs.end() ; it++){
+        std::vector < Punto > vertices = (*it).getVertices();
+        for (int i = 0; i < vertices.size(); ++i) {
+            for (int j = 0; j < vertices.size(); ++j) {
+                float costo = calcDistance(vertices[i], vertices[j]);
+                (*it).addEdge(vertices[i], vertices[j], costo);
+            }
         }
     }
 

@@ -132,11 +132,11 @@ void Graph<C>::showEdges(){
     typename  std::list < std::pair < int, C > >::iterator itL;
 
     for(int i = 0 ; i < this->edges.size() ; i++){
-        std::cout << "\n" << this->vertices[i] << ": ";
+        std::cout << "\n" << this->vertices[i] << ": \n";
         std::list < std::pair < int, C > > auxEdges = this->edges[i];
         itL = auxEdges.begin();
         for(itL = auxEdges.begin() ; itL != auxEdges.end() ; itL++){
-            std::cout << "(" << this->vertices[(*itL).first] << "," << (*itL).second << ") ";
+            std::cout << "(" << this->vertices[(*itL).first] << "," << (*itL).second << ") \n";
         }
         std::cout << std::endl;
     }
@@ -153,14 +153,6 @@ void Graph<C>::prim(){
 
 template < class C >
 void Graph<C>::dijkstra(){
-    std::list<Punto> Visitados;
-    std::list<Punto>::iterator itVisitados = Visitados.begin();
-    std::vector<Punto> noVisitados = this->getVertices();
-    std::vector<Punto>
-
-    while(!noVisitados.empty()){
-
-    }
 }
 
 #endif //TALLERGRAFOS_GRAFO_HXX
