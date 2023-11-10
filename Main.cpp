@@ -49,12 +49,15 @@ float calcDistance(Punto p1, Punto p2){
    return distancia;
 }
 
-void readEdges(Graph<float>& graph){
-    std::vector < Punto > vertices = graph.getVertices();
-    for (int i = 0; i < vertices.size(); ++i) {
-        for (int j = 0; j < vertices.size(); ++j) {
-            float costo = calcDistance(vertices[i], vertices[j]);
-            graph.addEdge(vertices[i], vertices[j], costo);
+void readEdges(std::list < Graph <float> >& graphs){
+    typename std::list < Graph <float> > :: iterator it = graphs.begin();
+    for( ; it != graphs.end() ; it++){
+        std::vector < Punto > vertices = (*it).getVertices();
+        for (int i = 0; i < vertices.size(); ++i) {
+            for (int j = 0; j < vertices.size(); ++j) {
+                float costo = calcDistance(vertices[i], vertices[j]);
+                (*it).addEdge(vertices[i], vertices[j], costo);
+            }
         }
     }
 }
@@ -73,16 +76,7 @@ int main(int argc, char* argv[]){
         g.plain();
     }
 
-    typename std::list < Graph <float> > :: iterator it = graphs.begin();
-    for( ; it != graphs.end() ; it++){
-        std::vector < Punto > vertices = (*it).getVertices();
-        for (int i = 0; i < vertices.size(); ++i) {
-            for (int j = 0; j < vertices.size(); ++j) {
-                float costo = calcDistance(vertices[i], vertices[j]);
-                (*it).addEdge(vertices[i], vertices[j], costo);
-            }
-        }
-    }
+    readEdges(graphs);
 
     for(Graph <float> g: graphs){
         cout << "EDGES" << endl;
