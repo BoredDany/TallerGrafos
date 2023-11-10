@@ -1,0 +1,91 @@
+//
+// Created by estudiante on 10/11/2023.
+//
+
+#include <iostream>
+#include <vector>
+#include <list>
+#include <string>
+#include <fstream>
+#include "Grafo.h"
+#include "Punto.h"
+using namespace std;
+
+Punto INITIAL (0.0, 0.0);
+
+
+void readVertices(string archivo, std::list < Graph <float> >& graphs){
+    std::ifstream file (archivo);
+    std::string line, word;
+    int numGraphs;
+
+    if(file.is_open()){
+        file>>numGraphs;
+        for (int i = 0; i < numGraphs; ++i) {
+            Graph<float> graph;
+            int numNodes;
+            file >> numNodes;
+            graph.addVertex(INITIAL);
+            for (int j = 0; j < numNodes; j++) {
+                float x, y;
+                file >> x >> y;
+                Punto p (x, y);
+                graph.addVertex(p);
+            }
+
+            graphs.push_back(graph);
+        }
+    }else{
+        std::cout<<"Archivo de conexiones no leido"<<std::endl;
+    }
+    file.close();
+}
+
+float calcDistance(Punto p1, Punto p2){
+   float distancia = 0, distanciaX = 0, distanciaY = 0;
+   distanciaX = pow(p1.x - p2.x,2);
+   distanciaY = pow(p1.y - p2.y,2);
+   distancia = sqrt(distanciaY+distanciaX);
+   return distancia;
+}
+
+void readEdges(Graph<float>& graph){
+    std::vector < Punto > vertices = graph.getVertices();
+    for (int i = 0; i < vertices.size(); ++i) {
+        for (int j = 0; j < vertices.size(); ++j) {
+            float costo = calcDistance(vertices[i], vertices[j]);
+            graph.addEdge(vertices[i], vertices[j], costo);
+        }
+    }
+}
+
+int main(int argc, char* argv[]){
+    if(argc < 3){
+        cout << "Argumentos no validos" << endl;
+        return 1;
+    }
+    string input = argv[1];
+    string output = argv[2];
+    std::list < Graph <float> > graphs;
+    readVertices(input, graphs);
+    for(Graph <float> g: graphs){
+        cout << "GRAPH" << endl;
+        g.plain();
+    }
+
+    for(Graph <float> g: graphs){
+        //readEdges(g);
+        for (int i = 0; i < 4; ++i) {
+            float costo = calcDistance(g.getVertices()[0], g.getVertices()[1]);
+            g.addEdge(g.getVertices()[0], g.getVertices()[1], costo);
+        }
+    }
+
+    for(Graph <float> g: graphs){
+        cout << "EDGES" << endl;
+        g.showEdges();
+    }
+
+
+    return 0;
+}

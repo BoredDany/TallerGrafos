@@ -1,0 +1,9 @@
+- vertices y costos son flotantes
+- lista de grafos
+- cada uno empieza y termina en 0 0
+- todos los nodos estan conectados con todos
+- se crean los grafos, se guardan en la lista
+- se hace dijkstra a la lista
+- se sacan las rutas
+- se reorganizan segun el primer nodo de cada ruta (el mas cercano a  00)
+- se escribe todo en el archivo
