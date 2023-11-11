@@ -116,7 +116,7 @@ std::pair<int,C>  Graph<C>::searchEdgeCost(Punto& origin, Punto& destination){
         itL = this->edges[originIndex].begin();
         for(itL = this->edges[originIndex].begin() ; itL != this->edges[originIndex].end() ; itL++){
             if(itL->first == destinationIndex){
-                return itL;
+                return *itL;
             }
         }
     }
@@ -174,12 +174,14 @@ void Graph<C>::dijkstra(){
     std::vector<Punto> noVisitados = this->vertices;
     std::vector<Punto>::iterator itNoVisitadosI = noVisitados.begin();
     std::vector<Punto>::iterator itNoVisitadosJ;
-    Punto busqueda (0,0);
+    Punto busqueda (itNoVisitadosI->x,itNoVisitadosI->y);
 
     for(;itNoVisitadosI != noVisitados.end(); itNoVisitadosI++){
         std::pair<int,C> cost1 = searchEdgeCost(busqueda,*itNoVisitadosI);
+        itNoVisitadosI->visitado = true;
+
         for(itNoVisitadosJ = noVisitados.begin();itNoVisitadosJ != noVisitados.end();itNoVisitadosJ++){
-            if(cost1.second >= searchEdgeCost(busqueda,*itNoVisitadosJ).second){
+            if(cost1.second >= searchEdgeCost(busqueda,*itNoVisitadosJ).second && !itNoVisitadosJ->visitado){
                 cost1 = searchEdgeCost(busqueda,itNoVisitadosJ);
                 *itRutaDijkstra = cost1;
             }
