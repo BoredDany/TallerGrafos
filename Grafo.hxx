@@ -153,6 +153,14 @@ void Graph<C>::prim(){
 
 template < class C >
 void Graph<C>::dijkstra(){
+    std::list<Punto> Visitados;
+    std::list<Punto>::iterator itVisitados = Visitados.begin();
+    std::vector<Punto> noVisitados = this->getVertices();
+    std::vector<Punto>
+
+    while(!noVisitados.empty()){
+
+    }
 }
 
 #endif //TALLERGRAFOS_GRAFO_HXX
