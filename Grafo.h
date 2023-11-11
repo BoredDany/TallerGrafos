@@ -36,6 +36,7 @@ public:
     //searching
     int searchVertice(Punto& vertex);
     bool searchEdge(Punto& origin, Punto& destination);
+    std::pair<int,C> searchEdgeCost(Punto& origin, Punto& destination);
 
     //tours
     void plain();

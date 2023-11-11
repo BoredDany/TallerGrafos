@@ -106,6 +106,22 @@ bool Graph<C>::searchEdge(Punto& origin, Punto& destination){
     return false;
 }
 
+template < class C >
+std::pair<int,C>  Graph<C>::searchEdgeCost(Punto& origin, Punto& destination){
+    typename  std::list < std::pair < int, C > >::iterator itL;
+    int destinationIndex = searchVertice(destination);
+    int originIndex = searchVertice(origin);
+
+    if(destinationIndex != -1 && originIndex != -1){
+        itL = this->edges[originIndex].begin();
+        for(itL = this->edges[originIndex].begin() ; itL != this->edges[originIndex].end() ; itL++){
+            if(itL->first == destinationIndex){
+                return itL;
+            }
+        }
+    }
+}
+
 //----------------------------------------------------------------------------------------------
 
 //tours
@@ -153,13 +169,22 @@ void Graph<C>::prim(){
 
 template < class C >
 void Graph<C>::dijkstra(){
-    std::list<Punto> Visitados;
-    std::list<Punto>::iterator itVisitados = Visitados.begin();
-    std::vector<Punto> noVisitados = this->getVertices();
-    std::vector<Punto>
+    std::list<std::pair<int,C>> rutaDijkstra;
+    typename std::list<std::pair<int,C>>::iterator itRutaDijkstra = rutaDijkstra.begin();
+    std::vector<Punto> noVisitados = this->vertices;
+    std::vector<Punto>::iterator itNoVisitadosI = noVisitados.begin();
+    std::vector<Punto>::iterator itNoVisitadosJ;
+    Punto busqueda (0,0);
 
-    while(!noVisitados.empty()){
-
+    for(;itNoVisitadosI != noVisitados.end(); itNoVisitadosI++){
+        std::pair<int,C> cost1 = searchEdgeCost(busqueda,*itNoVisitadosI);
+        for(itNoVisitadosJ = noVisitados.begin();itNoVisitadosJ != noVisitados.end();itNoVisitadosJ++){
+            if(cost1.second >= searchEdgeCost(busqueda,*itNoVisitadosJ).second){
+                cost1 = searchEdgeCost(busqueda,itNoVisitadosJ);
+                *itRutaDijkstra = cost1;
+            }
+        }
+        itRutaDijkstra++;
     }
 }
 
