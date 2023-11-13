@@ -184,7 +184,8 @@ std::vector<C> Graph<C>::dijkstra(Punto &origen) {
 
     distance[indexOrigin] = 0;
     q.push({0, indexOrigin});
-
+    std::priority_queue<std::pair<C, int>, std::vector<std::pair<C, int>>, std::greater<std::pair<C, int>>> pq;
+    pq.push({0,indexOrigin});
     while (!q.empty()) {
         int vertex = q.top().second;
         C cost = q.top().first;
@@ -196,14 +197,15 @@ std::vector<C> Graph<C>::dijkstra(Punto &origen) {
             C nCost = neighbor.second;
             if (cost + nCost < distance[vert]) {
                 distance[vert] = cost + nCost;
-                q.push({distance[vert], vert});
+                pq.push({distance[vert], vert});
             }
         }
     }
 
     // Imprimir resultados
-    for (int i = 0; i < numVertices; ++i) {
-        std::cout << "Vertex: " << i << ", Distance: " << distance[i] << std::endl;
+    for (int i = 0; i < numVertices; i++) {
+        std::cout << "Vertex: " << pq.top().second << ", Distance: " << pq.top().first << std::endl;
+        pq.pop();
     }
 
     return distance;
