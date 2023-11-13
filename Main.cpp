@@ -14,6 +14,7 @@ using namespace std;
 Punto INITIAL (0.0, 0.0);
 
 
+
 void readVertices(string archivo, std::list < Graph <float> >& graphs){
     std::ifstream file (archivo);
     std::string line, word;
@@ -21,6 +22,7 @@ void readVertices(string archivo, std::list < Graph <float> >& graphs){
 
     if(file.is_open()){
         file>>numGraphs;
+
         for (int i = 0; i < numGraphs; ++i) {
             Graph<float> graph;
             int numNodes;
@@ -62,6 +64,44 @@ void readEdges(std::list < Graph <float> >& graphs){
     }
 }
 
+void writeFile(string file, std::list < Graph <float> >& graphs)
+{
+    ofstream salida;
+    salida.open(file);
+
+        salida<<graphs.size()<<std::endl;
+         std::cout<<"Cantidad de circuitos en el archivo: "<<graphs.size()<<std::endl;
+
+    for (Graph <float> g : graphs) {
+        std::priority_queue<std::pair<float, int>, std::vector<std::pair<float, int>>, std::greater<std::pair<float, int>>> pq = g.dijkstra(INITIAL);
+
+        std::vector<Punto> orderedVertices;
+        while (!pq.empty()) {
+            pq.pop();
+            int vertexIndex = pq.top().second;
+            orderedVertices.push_back(g.getVertices()[vertexIndex]);
+        }
+        salida<<orderedVertices.size()-1<<std::endl;
+        std::cout<<"Cantidad de agujeros: "<<orderedVertices.size()-1<<std::endl;
+
+        for (Punto p : orderedVertices) {
+            salida << p.x << " " << p.y << std::endl;
+        }
+
+        // Calcular distancia
+        float totalDistance = 0;
+        for (int i = 0; i < orderedVertices.size() - 1; ++i) {
+            totalDistance += calcDistance(orderedVertices[i], orderedVertices[i + 1]);
+        }
+
+        std::cout << "Distancia por circuito: " << totalDistance << std::endl;
+        std::cout << "---------------------------" << std::endl;
+    }
+
+    salida.close();
+}
+
+
 //template < class C >
 int main(int argc, char* argv[]){
     if(argc < 3){
@@ -82,14 +122,11 @@ int main(int argc, char* argv[]){
     for(Graph <float> g: graphs){
         cout << "EDGES" << endl;
         g.showEdges();
-        Punto papitas = Punto(g.getVertices()[0].x,g.getVertices()[0].y);
-
-        std::vector<float> distancias = g.dijkstra(g.getVertices()[0]);
 
 
     }
 
-
+    writeFile( output,graphs);
 
     return 0;
 }

@@ -53,7 +53,7 @@ public:
 
 
     //std::map<int, C> dijkstra(Punto& inicio);
-    std::vector<C> dijkstra(Punto &origen);
+    std::priority_queue<std::pair<C, int>, std::vector<std::pair<C, int>>, std::greater<std::pair<C, int>>> dijkstra(Punto &origen);
 
     std::map<C, std::vector<Punto>> obtenerListaAdyacencia();
 };

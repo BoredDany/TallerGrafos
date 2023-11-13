@@ -175,7 +175,7 @@ void Graph<C>::prim(std::string origen){
 }
 
 template <class C>
-std::vector<C> Graph<C>::dijkstra(Punto &origen) {
+std::priority_queue<std::pair<C, int>, std::vector<std::pair<C, int>>, std::greater<std::pair<C, int>>> Graph<C>::dijkstra(Punto &origen) {
     int numVertices = vertices.size();
     std::vector<C> distance(numVertices, std::numeric_limits<C>::max());
 
@@ -202,13 +202,7 @@ std::vector<C> Graph<C>::dijkstra(Punto &origen) {
         }
     }
 
-    // Imprimir resultados
-    for (int i = 0; i < numVertices; i++) {
-        std::cout << "Vertex: " << pq.top().second << ", Distance: " << pq.top().first << std::endl;
-        pq.pop();
-    }
-
-    return distance;
+    return pq;
 }
 
 
