@@ -10,8 +10,6 @@
 #include <list>
 #include <utility>
 #include <iostream>
-#include <queue>
-#include <map>
 
 //constructors
 
@@ -74,11 +72,6 @@ bool Graph<C>::addEdge(Punto& origin, Punto& destination, C cost){
         return true;
     }
     return false;
-}
-
-template <class C>
-std::map<C, std::vector<Punto>> Graph<C>::obtenerListaAdyacencia() {
-    return this->listaAdyacencia;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -170,44 +163,35 @@ void Graph<C>::showEdges(){
 //algorithms
 
 template < class C >
-void Graph<C>::prim(std::string origen){
+void Graph<C>::prim(){
 
 }
 
-template <class C>
-std::vector<C> Graph<C>::dijkstra(Punto &origen) {
-    int numVertices = vertices.size();
-    std::vector<C> distance(numVertices, std::numeric_limits<C>::max());
+template < class C >
+void Graph<C>::dijkstra(){
+    std::list<std::pair<int,C>> rutaDijkstra;
+    typename std::list<std::pair<int,C>>::iterator itRutaDijkstra = rutaDijkstra.begin();
+    std::vector<Punto> noVisitados = this->vertices;
+    std::vector<Punto>::iterator itNoVisitadosI = noVisitados.begin();
+    std::vector<Punto>::iterator itNoVisitadosJ;
+    Punto busqueda (itNoVisitadosI->x,itNoVisitadosI->y);
 
-    std::priority_queue<std::pair<C, int>, std::vector<std::pair<C, int>>, std::greater<std::pair<C, int>>> q;
-    int indexOrigin = searchVertice(origen);
+    std::vector<std::pair<int,C>> caminosPosibles;
 
-    distance[indexOrigin] = 0;
-    q.push({0, indexOrigin});
+    for(;itNoVisitadosI != noVisitados.end(); itNoVisitadosI++){
+        std::pair<int,C> cost1 = searchEdgeCost(busqueda,*itNoVisitadosI);
+        itNoVisitadosI->visitado = true;
 
-    while (!q.empty()) {
-        int vertex = q.top().second;
-        C cost = q.top().first;
-
-        q.pop();
-
-        for (const std::pair<int, C> &neighbor : edges[vertex]) {
-            int vert = neighbor.first;
-            C nCost = neighbor.second;
-            if (cost + nCost < distance[vert]) {
-                distance[vert] = cost + nCost;
-                q.push({distance[vert], vert});
+        for(itNoVisitadosJ = noVisitados.begin();itNoVisitadosJ != noVisitados.end();itNoVisitadosJ++){
+            if(cost1.second >= searchEdgeCost(busqueda,*itNoVisitadosJ).second && !itNoVisitadosJ->visitado){
+                cost1 = searchEdgeCost(busqueda,itNoVisitadosJ);
+                *itRutaDijkstra = cost1;
+            }else{
+                caminosPosibles;
             }
         }
+        itRutaDijkstra++;
     }
-
-    // Imprimir resultados
-    for (int i = 0; i < numVertices; ++i) {
-        std::cout << "Vertex: " << i << ", Distance: " << distance[i] << std::endl;
-    }
-
-    return distance;
 }
-
 
 #endif //TALLERGRAFOS_GRAFO_HXX
