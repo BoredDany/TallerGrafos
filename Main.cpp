@@ -42,11 +42,11 @@ void readVertices(string archivo, std::list < Graph <float> >& graphs){
 }
 
 float calcDistance(Punto p1, Punto p2){
-   float distancia = 0, distanciaX = 0, distanciaY = 0;
-   distanciaX = pow(p1.x - p2.x,2);
-   distanciaY = pow(p1.y - p2.y,2);
-   distancia = sqrt(distanciaY+distanciaX);
-   return distancia;
+    float distancia = 0, distanciaX = 0, distanciaY = 0;
+    distanciaX = pow(p1.x - p2.x,2);
+    distanciaY = pow(p1.y - p2.y,2);
+    distancia = sqrt(distanciaY+distanciaX);
+    return distancia;
 }
 
 void readEdges(std::list < Graph <float> >& graphs){
@@ -62,6 +62,7 @@ void readEdges(std::list < Graph <float> >& graphs){
     }
 }
 
+//template < class C >
 int main(int argc, char* argv[]){
     if(argc < 3){
         cout << "Argumentos no validos" << endl;
@@ -77,11 +78,17 @@ int main(int argc, char* argv[]){
     }
 
     readEdges(graphs);
-
+    int c=0;
     for(Graph <float> g: graphs){
         cout << "EDGES" << endl;
         g.showEdges();
+        Punto papitas = Punto(g.getVertices()[0].x,g.getVertices()[0].y);
+
+        std::vector<float> distancias = g.dijkstra(g.getVertices()[0]);
+
+
     }
+
 
 
     return 0;

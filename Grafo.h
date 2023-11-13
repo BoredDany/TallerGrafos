@@ -8,8 +8,12 @@
 #include <vector>
 #include <list>
 #include <utility>
+#include <map>
 #include <iostream>
+#include <queue>
 #include "Punto.h"
+
+class priority_queue;
 
 template < class C >
 class Graph {
@@ -45,9 +49,13 @@ public:
     void showEdges();
 
     //algorithms
-    void prim();
-    void dijkstra();
+    void prim(std::string origen);
 
+
+    //std::map<int, C> dijkstra(Punto& inicio);
+    std::vector<C> dijkstra(Punto &origen);
+
+    std::map<C, std::vector<Punto>> obtenerListaAdyacencia();
 };
 
 #include "Grafo.hxx"
