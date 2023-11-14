@@ -13,7 +13,6 @@ using namespace std;
 
 Punto INITIAL (0.0, 0.0);
 
-
 void readVertices(string archivo, std::list < Graph <float> >& graphs){
     std::ifstream file (archivo);
     std::string line, word;
@@ -62,27 +61,26 @@ void readEdges(std::list < Graph <float> >& graphs){
     }
 }
 
+void makeDijkstra (std::list < Graph <float> >& graphs){
+    typename std::list < Graph <float> > :: iterator it = graphs.begin();
+    for( ; it != graphs.end() ; it++){
+        (*it).dijkstra(INITIAL);
+    }
+}
+
 int main(int argc, char* argv[]){
+
     if(argc < 3){
         cout << "Argumentos no validos" << endl;
         return 1;
     }
+
     string input = argv[1];
     string output = argv[2];
     std::list < Graph <float> > graphs;
     readVertices(input, graphs);
-    for(Graph <float> g: graphs){
-        cout << "GRAPH" << endl;
-        g.plain();
-    }
-
     readEdges(graphs);
-
-    for(Graph <float> g: graphs){
-        cout << "EDGES" << endl;
-        g.showEdges();
-    }
-
+    makeDijkstra(graphs);
 
     return 0;
 }

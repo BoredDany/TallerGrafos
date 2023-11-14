@@ -45,7 +45,7 @@ public:
 
     //algorithms
     void prim();
-    void dijkstra();
+    void dijkstra(Punto inicio);
 
 };
 

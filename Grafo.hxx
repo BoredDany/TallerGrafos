@@ -66,7 +66,8 @@ bool Graph<C>::addEdge(Punto& origin, Punto& destination, C cost){
     int destinationIndex = searchVertice(destination);
     int originIndex = searchVertice(origin);
 
-    if(!searchEdge(origin, destination) && originIndex != -1 && destinationIndex != -1){
+    if(!searchEdge(origin, destination) && originIndex != -1 && destinationIndex != -1
+    && !(origin == destination)){
         std::pair < int, C > newEdge (destinationIndex, cost);
         this->edges[originIndex].push_back(newEdge);
         return true;
@@ -152,7 +153,8 @@ void Graph<C>::prim(){
 }
 
 template < class C >
-void Graph<C>::dijkstra(){
+void Graph<C>::dijkstra(Punto inicio){
+
 }
 
 #endif //TALLERGRAFOS_GRAFO_HXX
