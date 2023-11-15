@@ -42,7 +42,7 @@ public:
     void plain();
     void showEdges();
 
-    //algorithms
+
     void bestRoute(Punto& initial, std::vector <int>& route, C& distance);
     void findBestRoute(int indexBegin, std::vector<bool> & visited, std::vector <int>& route, C& distance);
 
