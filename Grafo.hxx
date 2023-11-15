@@ -65,6 +65,7 @@ bool Graph<C>::addEdge(Punto& origin, Punto& destination, C cost){
         this->edges[originIndex].push_back(newEdge);
         return true;
     }
+
     return false;
 }
 
