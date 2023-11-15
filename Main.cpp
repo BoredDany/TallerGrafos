@@ -9,6 +9,7 @@
 #include <fstream>
 #include "Grafo.h"
 #include "Punto.h"
+#include <cmath>
 using namespace std;
 
 Punto INITIAL (0.0, 0.0);
