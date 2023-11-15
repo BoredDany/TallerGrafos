@@ -11,16 +11,14 @@
 #include <utility>
 #include <iostream>
 
-//constructors
+//constructors----------------------------------------------------------------------------------------------
 
 template < class C>
 Graph<C>::Graph() {
 
 }
 
-//----------------------------------------------------------------------------------------------
-
-//getters
+//getters----------------------------------------------------------------------------------------------
 
 template < class C >
 std::vector < Punto > Graph<C>::getVertices(){
@@ -32,9 +30,7 @@ std::vector < std::list < std::pair < int, C > > > Graph<C>::getEdges(){
     return this->edges;
 }
 
-//----------------------------------------------------------------------------------------------
-
-//setters
+//setters----------------------------------------------------------------------------------------------
 
 template < class C >
 void Graph<C>::setVertices(std::vector < Punto >& vertices){
@@ -46,9 +42,7 @@ void Graph<C>::setEdges(std::vector < std::list < std::pair < int, C > > >& edge
     this->edges = edges;
 }
 
-//----------------------------------------------------------------------------------------------
-
-//inserting
+//inserting----------------------------------------------------------------------------------------------
 
 template < class C >
 bool Graph<C>::addVertex(Punto& vertex){
@@ -66,7 +60,7 @@ bool Graph<C>::addEdge(Punto& origin, Punto& destination, C cost){
     int destinationIndex = searchVertice(destination);
     int originIndex = searchVertice(origin);
 
-    if(!searchEdge(origin, destination) && originIndex != -1 && destinationIndex != -1){
+    if(!searchEdge(origin, destination) && originIndex != -1 && destinationIndex != -1 && originIndex != destinationIndex){
         std::pair < int, C > newEdge (destinationIndex, cost);
         this->edges[originIndex].push_back(newEdge);
         return true;
@@ -74,9 +68,7 @@ bool Graph<C>::addEdge(Punto& origin, Punto& destination, C cost){
     return false;
 }
 
-//----------------------------------------------------------------------------------------------
-
-//searching
+//searching----------------------------------------------------------------------------------------------
 
 template < class C >
 int Graph<C>::searchVertice(Punto& vertex){
@@ -106,25 +98,13 @@ bool Graph<C>::searchEdge(Punto& origin, Punto& destination){
     return false;
 }
 
-//----------------------------------------------------------------------------------------------
-
-//tours
+//tours----------------------------------------------------------------------------------------------
 
 template < class C >
 void Graph<C>::plain(){
     for(int i = 0 ; i < this->vertices.size() ; i++){
         std::cout << this->vertices[i] << std::endl;
     }
-}
-
-template <class C >
-void Graph<C>::bfs(){
-
-}
-
-template < class C >
-void Graph<C>::dfs(){
-
 }
 
 template <class C >
@@ -142,25 +122,55 @@ void Graph<C>::showEdges(){
     }
 }
 
-//----------------------------------------------------------------------------------------------
-
-//algorithms
+//algorithms----------------------------------------------------------------------------------------------
 
 template < class C >
-void Graph<C>::prim(){
+void Graph<C>::bestRoute(Punto& initial, std::vector <int>& route, C& distance){
+    std::vector<bool> visited(this->vertices.size(), false);
+    int indexBegin = searchVertice(initial);
 
+    if(indexBegin != -1){
+        findBestRoute(indexBegin, visited, route, distance);
+        if(!route.empty()) {
+            distance+=Punto::calcDistance(this->vertices[route.back()], initial);
+        }
+    }
 }
 
 template < class C >
-void Graph<C>::dijkstra(){
-    std::list<Punto> Visitados;
-    std::list<Punto>::iterator itVisitados = Visitados.begin();
-    std::vector<Punto> noVisitados = this->getVertices();
-    std::vector<Punto>
+void Graph<C>::findBestRoute(int indexBegin, std::vector<bool> & visited, std::vector <int>& route, C& distance){
 
-    while(!noVisitados.empty()){
-
+    if (route.size() == this->vertices.size()-1) {
+        return;
     }
+
+    visited[indexBegin] = true;
+    C cost;
+    int nextVertice;
+
+    //inicializar costo en el primero disponible
+    for( typename  std::list < std::pair < int, C > >::iterator itL = this->edges[indexBegin].begin(); itL != this->edges[indexBegin].end() ; itL++){
+        int neighbor = (*itL).first;
+        if(!visited[neighbor]){
+            cost = (*itL).second;
+            break;
+        }
+    }
+
+    //encontrar el menor costo
+    for( typename  std::list < std::pair < int, C > >::iterator itL = this->edges[indexBegin].begin(); itL != this->edges[indexBegin].end() ; itL++){
+        int neighbor = (*itL).first;
+        if(!visited[neighbor] && (*itL).second <= cost){
+            cost = (*itL).second;
+            nextVertice = (*itL).first;
+        }
+    }
+
+    route.push_back(nextVertice);
+    visited[nextVertice] = true;
+    distance+=cost;
+    findBestRoute(nextVertice, visited, route, distance);
+
 }
 
 #endif //TALLERGRAFOS_GRAFO_HXX

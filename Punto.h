@@ -27,8 +27,16 @@ struct Punto {
     }
 
     friend std::ostream& operator << (std::ostream &o, const Punto &p) {
-        o << "(" << p.x << "," << p.y << ")";
+        o << p.x << " " << p.y;
         return o;
+    }
+
+    static float calcDistance(Punto &p1, Punto &p2){
+        float distancia = 0, distanciaX = 0, distanciaY = 0;
+        distanciaX = pow(p1.x - p2.x,2);
+        distanciaY = pow(p1.y - p2.y,2);
+        distancia = sqrt(distanciaY+distanciaX);
+        return distancia;
     }
 };
 

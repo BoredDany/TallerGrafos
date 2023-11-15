@@ -17,6 +17,7 @@ class Graph {
 private:
     std::vector < Punto > vertices;
     std::vector < std::list < std::pair < int, C > > > edges;
+
 public:
     //constructors
     Graph();
@@ -39,13 +40,11 @@ public:
 
     //tours
     void plain();
-    void bfs();
-    void dfs();
     void showEdges();
 
     //algorithms
-    void prim();
-    void dijkstra();
+    void bestRoute(Punto& initial, std::vector <int>& route, C& distance);
+    void findBestRoute(int indexBegin, std::vector<bool> & visited, std::vector <int>& route, C& distance);
 
 };
 
