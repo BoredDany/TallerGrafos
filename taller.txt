@@ -1,9 +1,0 @@
-- vertices y costos son flotantes
-- lista de grafos
-- cada uno empieza y termina en 0 0
-- todos los nodos estan conectados con todos
-- se crean los grafos, se guardan en la lista
-- buscar en vector vertice de inicio y marcar visitado
-- recorrer sus adyacencias y elegir la de menor costo, marcar ese vertice como visitado
-- recorrer todas las adyacencias del vertice, elegir la de menor costo y marcar como visitado
--
