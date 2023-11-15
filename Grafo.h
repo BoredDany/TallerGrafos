@@ -2,33 +2,35 @@
 // Created by estudiante on 10/11/2023.
 //
 
-#ifndef TALLERGRAFOS_GRAFO_H
-#define TALLERGRAFOS_GRAFO_H
+#ifndef TALLERGRAFOS_GRAFO_HXX
+#define TALLERGRAFOS_GRAFO_HXX
 
+#include "Punto.h"
 #include <vector>
 #include <list>
 #include <utility>
 #include <iostream>
-#include "Punto.h"
+#include <queue>
+#include <climits>
 
-template < class C >
+template <class C>
 class Graph {
 
 private:
-    std::vector < Punto > vertices;
-    std::vector < std::list < std::pair < int, C > > > edges;
+    std::vector<Punto> vertices;
+    std::vector<std::list<std::pair<int, C>>> edges;
 
 public:
     //constructors
     Graph();
 
     //getters
-    std::vector < Punto > getVertices();
-    std::vector < std::list < std::pair < int, C > > > getEdges();
+    std::vector<Punto> getVertices();
+    std::vector<std::list<std::pair<int, C>>> getEdges();
 
     //setters
-    void setVertices(std::vector < Punto >& vertices);
-    void setEdges(std::vector < std::list < std::pair < int, C > > >& edges);
+    void setVertices(std::vector<Punto>& vertices);
+    void setEdges(std::vector<std::list<std::pair<int, C>>>& edges);
 
     //inserting
     bool addVertex(Punto& vertex);
@@ -43,10 +45,9 @@ public:
     void showEdges();
 
     //algorithms
-    void bestRoute(Punto& initial, std::vector <int>& route, C& distance);
-    void findBestRoute(int indexBegin, std::vector<bool> & visited, std::vector <int>& route, C& distance);
-
+    void bestRoute(Punto& initial, std::vector<int>& route, C& distance);
+    void findBestRoute(int indexBegin, std::vector<bool>& visited, std::vector<int>& route, C& distance);
 };
 
 #include "Grafo.hxx"
-#endif //TALLERGRAFOS_GRAFO_H
+#endif //TALLERGRAFOS_GRAFO_HXX

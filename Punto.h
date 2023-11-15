@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include <valarray>
+#include <cmath>
+
 
 struct Punto {
 

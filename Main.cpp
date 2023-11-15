@@ -9,6 +9,7 @@
 #include <fstream>
 #include "Grafo.h"
 #include "Punto.h"
+#include <cmath>
 using namespace std;
 
 Punto INITIAL (0.0, 0.0);
@@ -60,7 +61,7 @@ void writeFile(string archivo, std::list < Graph <float> >& graphs, std::vector 
         typename std::list < Graph <float> >::iterator itG = graphs.begin();
         int itR = 0;
 
-        for(; itG != graphs.end(), itR < routes.size(); itG++, itR++){
+        for (; itG != graphs.end() && itR < routes.size(); itG++, itR++){
             file << routes[itR].size() << "\n";
             for(int i = 0 ; i < routes[itR].size() ; i++){
                 file << (*itG).getVertices()[routes[itR][i]] << "\n";
@@ -74,30 +75,40 @@ void writeFile(string archivo, std::list < Graph <float> >& graphs, std::vector 
     file.close();
 }
 
-int main(int argc, char* argv[]){
-
-    if(argc < 3){
-        cout << "Argumentos no validos" << endl;
+int main(int argc, char* argv[]) {
+    if (argc < 3) {
+        cout << "Argumentos no válidos";
+        cout<<endl;
         return 1;
     }
 
-    std::list < Graph <float> > graphs;
-    std::vector < std::vector <int> > routes;
+    std::list<Graph<float>> graphs;
+    std::vector<std::vector<int>> routes;
     int i = 0;
 
     readVertices(argv[1], graphs);
-    readEdges(graphs);
 
-    cout<<"\nCantidad de circuitos en el archivo: " << graphs.size() << endl;
+    cout << "\nCantidad de circuitos en el archivo: " << graphs.size();
+    cout<<endl;
 
-    for(typename std::list < Graph <float> >::iterator itG = graphs.begin(); itG != graphs.end(); itG++){
-        std::vector < int > ruta;
+    for (typename std::list<Graph<float>>::iterator itG = graphs.begin(); itG != graphs.end(); itG++) {
+        std::vector<int> ruta;
         float distance = 0;
+
+        INITIAL = Punto(0.0, 0.0);
+        (*itG).addVertex(INITIAL);
+        readEdges(graphs);
+
         (*itG).bestRoute(INITIAL, ruta, distance);
+
         routes.push_back(ruta);
-        cout<< "\nCIRCUITO " << i+1 << endl;
-        cout<< "Numero de agujeros:" << ruta.size() << endl;
-        cout<< "Distancia recorrida: " << distance << endl;
+
+        cout << "\nCIRCUITO " << i + 1 << endl;
+        cout << "Numero de agujeros:" << ruta.size();
+        cout<<endl;
+        cout << "Distancia recorrida: " << distance;
+        cout<<endl;
+
         i++;
     }
 
